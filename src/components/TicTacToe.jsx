@@ -38,26 +38,30 @@ export default function TicTacToe() {
     setIsXNext(!isXNext);
   };
 
-  const makeComputerMove = (difficulty) => {
-    const available = board.map((val, idx) => (val === null ? idx : null)).filter((val) => val !== null);
-    let move;
+const makeComputerMove = (difficulty) => {
+  const available = board.map((val, idx) => (val === null ? idx : null)).filter((val) => val !== null);
+  let move;
 
-    if (difficulty === "Easy") {
-      move = available[Math.floor(Math.random() * available.length)];
-    }
+  if (difficulty === "Easy") {
+    // Random move for easy difficulty
+    move = available[Math.floor(Math.random() * available.length)];
+  }
 
-    if (difficulty === "Medium") {
-      move = findBestMove("O");
-      if (move === null) move = findBestMove("X");
-      if (move === null) move = available[Math.floor(Math.random() * available.length)];
-    }
+  if (difficulty === "Medium") {
+    // Medium difficulty - tries to block or win
+    move = findBestMove("O");
+    if (move === null) move = findBestMove("X");
+    if (move === null) move = available[Math.floor(Math.random() * available.length)];
+  }
 
-    if (difficulty === "Hard") {
-      move = getBestMove(board, "O");
-    }
+  if (difficulty === "Hard") {
+    // Hard difficulty - uses Minimax algorithm to find the best move
+    move = getBestMove(board, "O"); // Use Minimax-based move
+  }
 
-    if (move !== undefined) handleClick(move);
-  };
+  if (move !== undefined) handleClick(move);
+};
+
 
   function getBestMove(boardState, aiPlayer) {
     let bestScore = -Infinity;
